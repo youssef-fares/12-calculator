@@ -7,12 +7,12 @@
 
 .grid-container {
   display: grid;
-  gap: 2px;
+  gap: 5px;
   grid-template-rows: 120px repeat(5, 80px);
   grid-template-columns: repeat(4, 100px);
-  background-color: darkblue;
-  border-radius: 15px;
-  border: 12px solid darkblue;
+  background-color: rgb(130, 130, 219);
+  border-radius: 25px;
+  border: 20px solid rgb(130, 130, 219);
 }
 
 .display {
@@ -22,7 +22,7 @@
   padding-right: 10px;
   grid-column: span 4;
   background-color: rgb(184, 184, 184);
-  border-radius: 10px;
+  border-radius: 5px;
   text-align: right;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 460%;
@@ -39,7 +39,8 @@ button {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 200%;
   font-weight: 800;
-  border-radius: 10px;
+  border-radius: 20px;
+  border: 2px solid black;
 }
 
 button:hover {
@@ -50,7 +51,7 @@ button:hover {
   background-color: orange;
 }
 
-.operand {
+.number {
 }
 
 #zero {
