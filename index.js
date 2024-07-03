@@ -16,9 +16,10 @@
 
 let nb1 = null;
 let nb2 = null;
-let operator = null;
+let op = null;
 let displayValue = [];
 let opIndex = 0;
+let equalLock = true;
 
 let operate = function (nb1, nb2, op) {
   console.log(op);
@@ -57,7 +58,7 @@ const operators = document.querySelectorAll(".operator");
 const clear = document.querySelector(".clear");
 const equal = document.querySelector(".equal");
 const negative = document.querySelector(".negative");
-const returnn = document.querySelector(".return");
+const del = document.querySelector(".del");
 const display = document.querySelector(".display");
 
 numbers.forEach((number) => {
@@ -66,12 +67,14 @@ numbers.forEach((number) => {
       displayValue.push(event.target.value);
       nb1 = parseFloat(displayValue.join(""));
       display.textContent = nb1;
+      equalLock = false;
     }
 
     if (opIndex >= 1 && displayValue.length < 10) {
       displayValue.push(event.target.value);
       nb2 = parseFloat(displayValue.join(""));
       display.textContent = nb2;
+      equalLock = false;
     }
   });
 });
@@ -79,42 +82,65 @@ numbers.forEach((number) => {
 operators.forEach((operator) => {
   operator.addEventListener("click", (event) => {
     if (nb1 !== null && nb2 === null) {
-      operator = event.target.value;
-      console.log(operator);
+      op = event.target.value;
+      console.log(op);
       opIndex++;
       displayValue = [];
+      equalLock = true;
     } else if (nb2 !== null) {
-      nb1 = operate(nb1, nb2, operator);
-      operator = event.target.value;
-      console.log(operator);
+      nb1 = Math.round(operate(nb1, nb2, op) * 10000) / 10000;
+      op = event.target.value;
+      console.log(op);
       console.log(nb1);
       display.textContent = nb1;
       opIndex++;
       displayValue = [];
+      equalLock = true;
     }
   });
 });
 
-// buttons.forEach((button) => {
-//     button.addEventListener("click", (event) => {
+negative.addEventListener("click", () => {
+  if (opIndex === 0) {
+    nb1 = -nb1;
+    display.textContent = nb1;
+  } else {
+    nb2 = -nb2;
+    display.textContent = nb2;
+  }
+});
 
-//         if(event.class=".number" && displayValue.length<10){
-//         displayValue.push(event.target.value);
-//         let val = parseFloat(displayValue.join(''));
-//         display.textContent=val;
-//         }
+equal.addEventListener("click", () => {
+  if (equalLock === false) {
+    display.textContent = Math.round(operate(nb1, nb2, op) * 10000) / 10000;
+    equalLock = true;
+    // nb1 = operate(nb1, nb2, op);
+    // nb2 = null;
+    // op = null;
+    displayValue = [];
+  }
+});
 
-//         if(event.class=".operator" && displayValue.length>0){
-//             operator = event.target.value;
-//         }
+clear.addEventListener("click", () => {
+  display.textContent = "0";
+  equalLock = true;
+  nb1 = null;
+  nb2 = null;
+  displayValue = [];
+  opIndex = 0;
+  op = null;
+});
 
-//     });
-//   });
+del.addEventListener("click", () => {
+  if (opIndex === 0) {
+    nb1 = parseFloat(displayValue.slice(0, -1));
+    display.textContent = nb1;
+  } else {
+    nb2 = parseFloat(displayValue.slice(0, -1));
+    display.textContent = nb2;
+  }
+});
 
-// num= Array.from(numbers)
-//   for (let i = 0; i < num.length; i++) {
-//     num[i].addEventListener("click", function (e) {
-//         display.textContent=e.target.value;
-//         console.log("click");
-//     });
-//   }
+if (displayValue.length > 9) {
+  display.style.fontSize = "5px !important";
+}

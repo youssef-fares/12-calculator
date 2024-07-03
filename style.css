@@ -30,7 +30,7 @@
 }
 
 .clear,
-.return,
+.del,
 .negative {
   background-color: bisque;
 }
