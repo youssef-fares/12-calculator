@@ -5,27 +5,35 @@
   margin-top: 30px;
 }
 
+@font-face {
+  font-family: "digital-clock-font";
+  src: url(./ticking-timebomb-bb.regular.ttf);
+}
+
 .grid-container {
   display: grid;
-  gap: 5px;
+  gap: 10px;
   grid-template-rows: 120px repeat(5, 80px);
   grid-template-columns: repeat(4, 100px);
-  background-color: rgb(130, 130, 219);
+  background-color: rgb(163, 163, 179);
   border-radius: 25px;
-  border: 20px solid rgb(130, 130, 219);
+  border: 20px solid rgb(163, 163, 179);
+  box-shadow: 2px 2px 3px 1px rgb(58, 58, 99);
 }
 
 .display {
   display: flex;
   justify-content: right;
   align-items: center;
+  padding-top: 14px;
   padding-right: 10px;
   grid-column: span 4;
-  background-color: rgb(184, 184, 184);
-  border-radius: 5px;
+  background-color: rgb(176, 185, 175);
+  border-radius: 10px;
+  border: 2px solid rgb(87, 86, 86);
   text-align: right;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 460%;
+  font-family: "digital-clock-font";
+  font-size: 600%;
   margin-bottom: 10px;
 }
 
@@ -40,11 +48,17 @@ button {
   font-size: 200%;
   font-weight: 800;
   border-radius: 20px;
-  border: 2px solid black;
+  border: 1px solid #4d4c4d;
+  box-shadow: 2px 2px #4d4c4c;
 }
 
 button:hover {
   cursor: grab;
+}
+
+button:active {
+  transform: translateY(3px);
+  filter: brightness(90%);
 }
 
 .operator {
@@ -59,7 +73,7 @@ button:hover {
 }
 
 .equal {
-  background-color: lightcyan;
+  background-color: rgb(106, 204, 196);
 }
 
 @media (width<500px) {
@@ -69,10 +83,15 @@ button:hover {
   }
 
   .display {
-    font-size: 270%;
+    font-size: 350%;
   }
 
   button {
     font-size: 150%;
   }
 }
+
+/* .pressed {
+  box-shadow: 0 0 5px white;
+  background-color: grey;
+} */

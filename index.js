@@ -1,19 +1,3 @@
-// const add = function (a, b) {
-//   return a + b;
-// };
-
-// const subtract = function (a, b) {
-//   return a - b;
-// };
-
-// const multiply = function (a, b) {
-//   return a * b;
-// };
-
-// const divide = function (a, b) {
-//   return a / b;
-// };
-
 let nb1 = null;
 let nb2 = null;
 let op = null;
@@ -63,44 +47,34 @@ const display = document.querySelector(".display");
 
 numbers.forEach((number) => {
   number.addEventListener("click", (event) => {
+    displayValue.push(event.target.value);
     if (opIndex === 0 && displayValue.length < 10) {
-      displayValue.push(event.target.value);
       nb1 = parseFloat(displayValue.join(""));
       display.textContent = nb1;
-      equalLock = false;
     }
 
     if (opIndex >= 1 && displayValue.length < 10) {
-      displayValue.push(event.target.value);
       nb2 = parseFloat(displayValue.join(""));
       display.textContent = nb2;
-      equalLock = false;
     }
+    equalLock = false;
   });
 });
 
 operators.forEach((operator) => {
   operator.addEventListener("click", (event) => {
-    if (nb1 !== null && nb2 === null) {
-      op = event.target.value;
-      console.log(op);
-      opIndex++;
-      displayValue = [];
-      equalLock = true;
-    } else if (nb2 !== null) {
-      nb1 = Math.round(operate(nb1, nb2, op) * 10000) / 10000;
-      op = event.target.value;
-      console.log(op);
-      console.log(nb1);
+    if (nb2 !== null) {
+      nb1 = Math.round(operate(nb1, nb2, op) * 100000) / 100000;
       display.textContent = nb1;
-      opIndex++;
-      displayValue = [];
-      equalLock = true;
     }
+    op = event.target.value;
+    opIndex++;
+    displayValue = [];
+    equalLock = true;
   });
 });
 
-negative.addEventListener("click", () => {
+negative.addEventListener("click", (event) => {
   if (opIndex === 0) {
     nb1 = -nb1;
     display.textContent = nb1;
@@ -110,18 +84,18 @@ negative.addEventListener("click", () => {
   }
 });
 
-equal.addEventListener("click", () => {
+equal.addEventListener("click", (event) => {
+  if (opIndex === 0) {
+    return;
+  }
   if (equalLock === false) {
-    display.textContent = Math.round(operate(nb1, nb2, op) * 10000) / 10000;
+    display.textContent = Math.round(operate(nb1, nb2, op) * 100000) / 100000;
     equalLock = true;
-    // nb1 = operate(nb1, nb2, op);
-    // nb2 = null;
-    // op = null;
     displayValue = [];
   }
 });
 
-clear.addEventListener("click", () => {
+clear.addEventListener("click", (event) => {
   display.textContent = "0";
   equalLock = true;
   nb1 = null;
@@ -131,12 +105,20 @@ clear.addEventListener("click", () => {
   op = null;
 });
 
-del.addEventListener("click", () => {
-  if (opIndex === 0) {
-    nb1 = parseFloat(displayValue.slice(0, -1));
+del.addEventListener("click", (event) => {
+  if (
+    opIndex === 0 &&
+    (displayValue.length === 1 || displayValue.length === 0)
+  ) {
+    displayValue = [];
+    display.textContent = 0;
+  } else if (opIndex === 0 && displayValue.length > 1) {
+    displayValue.pop();
+    nb1 = parseFloat(displayValue.join(""));
     display.textContent = nb1;
   } else {
-    nb2 = parseFloat(displayValue.slice(0, -1));
+    displayValue.pop();
+    nb2 = parseFloat(displayValue.join(""));
     display.textContent = nb2;
   }
 });
