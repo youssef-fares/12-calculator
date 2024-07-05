@@ -37,6 +37,12 @@
   margin-bottom: 10px;
 }
 
+.backspace {
+  height: 50px;
+  padding-top: 8px;
+  padding-right: 2px;
+}
+
 .clear,
 .del,
 .negative {
@@ -81,6 +87,9 @@ button:active {
 
   .display {
     font-size: 380%;
+  }
+  .backspace {
+    height: 30px;
   }
 
   button {
