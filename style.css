@@ -33,7 +33,7 @@
   border: 2px solid rgb(87, 86, 86);
   text-align: right;
   font-family: "digital-clock-font";
-  font-size: 650%;
+  font-size: 590%;
   margin-bottom: 10px;
 }
 
@@ -80,7 +80,7 @@ button:active {
   }
 
   .display {
-    font-size: 400%;
+    font-size: 380%;
   }
 
   button {

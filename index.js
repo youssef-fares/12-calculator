@@ -6,23 +6,37 @@ let opIndex = 0;
 let equalLock = true;
 let equalPressed = false;
 
+function resFormat(res) {
+  if (res > 10000000 || res < -1000000) {
+    return res.toExponential(3);
+  }
+  if (Number.isInteger(res)) {
+    return res;
+  } else {
+    return Math.round(res * 1000) / 1000;
+  }
+}
+
 let operate = function (nb1, nb2, op) {
-  console.log(op);
   switch (op) {
     case "add":
-      return nb1 + nb2;
+      let addi = nb1 + nb2;
+      return resFormat(addi);
       break;
 
     case "subtract":
-      return nb1 - nb2;
+      let subt = nb1 - nb2;
+      return resFormat(subt);
       break;
 
     case "multiply":
-      return nb1 * nb2;
+      let mult = nb1 * nb2;
+      return resFormat(mult);
       break;
 
     case "divide":
-      return nb1 / nb2;
+      let divi = nb1 / nb2;
+      return resFormat(divi);
       break;
 
     default:
@@ -48,7 +62,17 @@ const display = document.querySelector(".display");
 
 numbers.forEach((number) => {
   number.addEventListener("click", (event) => {
-    if (equalPressed === true && event.target.value === ".") {
+    // comnplicated way to prevent user to enter a point more than once in a number...
+    if (
+      (equalPressed === true && event.target.value === ".") ||
+      (displayValue.reduce((tot, digit) => {
+        if (digit === ".") {
+          tot++;
+        }
+        return tot;
+      }, 0) === 1 &&
+        event.target.value === ".")
+    ) {
       return;
     }
 
@@ -59,29 +83,26 @@ numbers.forEach((number) => {
       nb1 = null;
       nb2 = null;
       op = null;
-      console.log(equalPressed);
     }
 
     displayValue.push(event.target.value);
     if (opIndex === 0 && displayValue.length < 10) {
       nb1 = parseFloat(displayValue.join(""));
-      display.textContent = nb1;
+      display.textContent = displayValue.join("");
     }
 
     if (opIndex >= 1 && displayValue.length < 10) {
       nb2 = parseFloat(displayValue.join(""));
-      display.textContent = nb2;
+      display.textContent = displayValue.join("");
     }
     equalLock = false;
-    console.log(equalPressed);
-    // equalPressed = false;
   });
 });
 
 operators.forEach((operator) => {
   operator.addEventListener("click", (event) => {
     if (nb2 !== null) {
-      nb1 = Math.round(operate(nb1, nb2, op) * 10000) / 10000;
+      nb1 = operate(nb1, nb2, op);
       display.textContent = nb1;
     }
     op = event.target.value;
@@ -89,13 +110,12 @@ operators.forEach((operator) => {
     displayValue = [];
     equalLock = true;
     equalPressed = false;
-    console.log(equalPressed);
   });
 });
 
 negative.addEventListener("click", (event) => {
   if (equalPressed === true) {
-    nb1 = -Math.round(operate(nb1, nb2, op) * 10000) / 10000;
+    nb1 = -operate(nb1, nb2, op);
     display.textContent = nb1;
     nb2 = null;
     return;
@@ -115,17 +135,17 @@ equal.addEventListener("click", (event) => {
     return;
   }
   if (equalLock === false) {
-    display.textContent = Math.round(operate(nb1, nb2, op) * 10000) / 10000;
+    display.textContent = operate(nb1, nb2, op);
     equalLock = true;
     displayValue = [];
   }
   equalPressed = true;
-  console.log(equalPressed);
 });
 
 clear.addEventListener("click", (event) => {
   display.textContent = "0";
   equalLock = true;
+  equalPressed = false;
   nb1 = null;
   nb2 = null;
   displayValue = [];
@@ -161,9 +181,4 @@ del.addEventListener("click", (event) => {
     nb2 = parseFloat(displayValue.join(""));
     display.textContent = nb2;
   }
-  console.log(equalPressed);
 });
-
-if (displayValue.length > 9) {
-  display.style.fontSize = "5px !important";
-}
