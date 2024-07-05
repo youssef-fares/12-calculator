@@ -115,9 +115,8 @@ operators.forEach((operator) => {
 
 negative.addEventListener("click", (event) => {
   if (equalPressed === true) {
-    nb1 = -operate(nb1, nb2, op);
+    nb1 = -nb1;
     display.textContent = nb1;
-    nb2 = null;
     return;
   }
 
@@ -140,6 +139,8 @@ equal.addEventListener("click", (event) => {
     displayValue = [];
   }
   equalPressed = true;
+  nb1 = operate(nb1, nb2, op);
+  nb2 = null;
 });
 
 clear.addEventListener("click", (event) => {
